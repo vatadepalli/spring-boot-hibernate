@@ -1,4 +1,4 @@
-package org.mdt.hb.repository;
+package org.mdt.hb.repository.blog;
 
 import org.mdt.hb.model.blog.Post;
 import org.springframework.data.jpa.repository.JpaRepository;

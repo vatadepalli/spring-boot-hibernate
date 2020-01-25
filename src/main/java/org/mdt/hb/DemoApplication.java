@@ -2,8 +2,8 @@ package org.mdt.hb;
 
 import org.mdt.hb.model.blog.Post;
 import org.mdt.hb.model.blog.Tag;
-import org.mdt.hb.repository.PostRepository;
-import org.mdt.hb.repository.TagRepository;
+import org.mdt.hb.repository.blog.PostRepository;
+import org.mdt.hb.repository.blog.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
