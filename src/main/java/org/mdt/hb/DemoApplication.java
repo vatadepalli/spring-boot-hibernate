@@ -1,9 +1,9 @@
 package org.mdt.hb;
 
-import org.mdt.hb.model.blog.Post;
-import org.mdt.hb.model.blog.Tag;
-import org.mdt.hb.repository.blog.PostRepository;
-import org.mdt.hb.repository.blog.TagRepository;
+import org.mdt.hb.model.Course;
+import org.mdt.hb.model.Student;
+import org.mdt.hb.repository.CourseRepository;
+import org.mdt.hb.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,10 +15,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class DemoApplication implements CommandLineRunner {
 
   @Autowired
-  private TagRepository tagRepository;
+  private StudentRepository studentRepository;
 
   @Autowired
-  private PostRepository postRepository;
+  private CourseRepository courseRepository;
 
   public static void main(String[] args) {
     SpringApplication.run(DemoApplication.class, args);
@@ -26,27 +26,20 @@ public class DemoApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
+    actsSeeder();
+  }
+
+  public void actsSeeder() {
     // Cleanup the tables
-    postRepository.deleteAllInBatch();
-    tagRepository.deleteAllInBatch();
+    studentRepository.deleteAllInBatch();
+    courseRepository.deleteAllInBatch();
 
-    // Create a Post
-    Post post = new Post("Hibernate Many to Many Example with Spring Boot",
-        "Learn how to map a many to many relationship using hibernate", "Entire Post content with Sample code");
+    Student s1 = new Student("Vijaya Aditya", "Tadepalli", "vatadepalli@hotmail.com");
+    Student s2 = new Student("Venkatesh", "Ransing", "vransing@hotmail.com");
 
-    // Create two tags
-    Tag tag1 = new Tag("Spring Boot");
-    Tag tag2 = new Tag("Hibernate");
-
-    // Add tag references in the post
-    post.getTags().add(tag1);
-    post.getTags().add(tag2);
-
-    // Add post reference in the tags
-    tag1.getPosts().add(post);
-    tag2.getPosts().add(post);
-
-    postRepository.save(post);
+    Course c1 = new Course("DSA");
+    Course c2 = new Course("C++");
 
   }
+
 }

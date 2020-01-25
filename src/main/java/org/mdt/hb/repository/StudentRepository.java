@@ -1,6 +1,6 @@
-package org.mdt.hb.repository.acts;
+package org.mdt.hb.repository;
 
-import org.mdt.hb.model.acts.Student;
+import org.mdt.hb.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

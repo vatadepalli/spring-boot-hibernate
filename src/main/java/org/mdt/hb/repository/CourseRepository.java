@@ -1,6 +1,6 @@
-package org.mdt.hb.repository.acts;
+package org.mdt.hb.repository;
 
-import org.mdt.hb.model.acts.Course;
+import org.mdt.hb.model.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
