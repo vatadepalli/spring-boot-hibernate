@@ -1,45 +1,91 @@
 package org.mdt.hb;
 
-import org.mdt.hb.model.Course;
-import org.mdt.hb.model.Student;
-import org.mdt.hb.repository.CourseRepository;
-import org.mdt.hb.repository.StudentRepository;
+import java.util.Date;
+
+import javax.transaction.Transactional;
+
+import org.mdt.hb.model.library.Book;
+import org.mdt.hb.model.library.BookPublisher;
+import org.mdt.hb.model.library.Publisher;
+import org.mdt.hb.model.products.Product;
+import org.mdt.hb.model.products.ProductVendor;
+import org.mdt.hb.model.products.Vendor;
+import org.mdt.hb.repository.library.BookRepository;
+import org.mdt.hb.repository.library.PublisherRepository;
+import org.mdt.hb.repository.products.ProductRepository;
+import org.mdt.hb.repository.products.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableJpaAuditing
 public class DemoApplication implements CommandLineRunner {
 
   @Autowired
-  private StudentRepository studentRepository;
+  private BookRepository bookRepository;
 
   @Autowired
-  private CourseRepository courseRepository;
+  private PublisherRepository publisherRepository;
+
+  @Autowired
+  private ProductRepository productRepository;
+
+  @Autowired
+  private VendorRepository vendorRepository;
 
   public static void main(String[] args) {
     SpringApplication.run(DemoApplication.class, args);
   }
 
   @Override
+  @Transactional
   public void run(String... args) throws Exception {
-    actsSeeder();
+    libTest();
+    prodTest();
   }
 
-  public void actsSeeder() {
-    // Cleanup the tables
-    studentRepository.deleteAllInBatch();
-    courseRepository.deleteAllInBatch();
+  public void prodTest() {
 
-    Student s1 = new Student("Vijaya Aditya", "Tadepalli", "vatadepalli@hotmail.com");
-    Student s2 = new Student("Venkatesh", "Ransing", "vransing@hotmail.com");
+    Product prodA = new Product("Maggi Atta Noodles", "Nestle", "Foods", "An awesome product by maggi", 20.0,
+        "imageUrl");
 
-    Course c1 = new Course("DSA");
-    Course c2 = new Course("C++");
+    Vendor vendor1 = new Vendor("name1", "desc1", "url1");
+    Vendor vendor2 = new Vendor("name2", "desc2", "url2");
+
+    ProductVendor prodVendX = new ProductVendor();
+    prodVendX.setProduct(prodA);
+    prodVendX.setVendor(vendor1);
+    prodVendX.setVendorSpecificPrice(20.0);
+
+    prodA.getProductVendors().add(prodVendX);
+
+    ProductVendor prodVendY = new ProductVendor();
+    prodVendY.setProduct(prodA);
+    prodVendY.setVendor(vendor2);
+    prodVendY.setVendorSpecificPrice(110.0);
+
+    prodA.getProductVendors().add(prodVendY);
+
+    vendorRepository.save(vendor1);
+    vendorRepository.save(vendor2);
+    productRepository.save(prodA);
 
   }
 
+  public void libTest() {
+    // create new
+    Book bookA = new Book("Book A");
+    Publisher publisherA = new Publisher("Publisher A");
+
+    BookPublisher bookPublisher = new BookPublisher();
+    bookPublisher.setBook(bookA);
+    bookPublisher.setPublisher(publisherA);
+    bookPublisher.setPublishedDate(new Date());
+
+    bookA.getBookPublishers().add(bookPublisher);
+
+    publisherRepository.save(publisherA);
+    bookRepository.save(bookA);
+  }
 }
